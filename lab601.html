@@ -82,9 +82,9 @@
 $(document).ready( function() {
 	console.log('hello');
 	$("#button1").click( function() {
-		console.log('hello from button1 click');
-		$("img").toggle();
-		$("#testp").text("testp text changed happened");
+		console.log("hello from button1 click");
+		$("img[src='bunny.jpg']").attr("src", "mice.jpg");
+		$("#picCap").text("Mice are also cute when they are hiding in the bushes. Photo also by Jeremy Havens");
 	});
 });
 </script>
@@ -98,15 +98,14 @@ $(document).ready( function() {
 
 <button id="button1">Click button1</button>
 
-<button id="button2">Click button2</button>
-<p id="testp"></p>
+
   
 <h3>Picture Section</h3>
 
 <div id="picture">
  
   <img id="photo" src="bunny.jpg" />
-    <p class="caption">A young rabbit lying on the garden path. Photo by Jeremy Havens</p>
+    <p id="picCap" class="caption">A young rabbit lying on the garden path. Photo by Jeremy Havens</p>
   <p>For more information, see these <a href="https://www.bing.com/images/search?q=rabbits+yawning&form=HDRSC4&first=1">images of yawning rabbits</a>.</p>
  </div>
 
@@ -161,6 +160,9 @@ $(document).ready( function() {
       <p>This website is for my web mapping class.</p>
       <p>The other class I am taking this semester is about global development and requires a lot of reading and writing.</p>
  </div>
+
+	
+<button id="button2">Click button2</button>
   
 </div>
 </body>
