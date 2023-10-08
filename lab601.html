@@ -79,20 +79,34 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>    
 <script>
-// your code will go in here.
+$(document).ready( function() {
+	// your code will go in here.
+	$("button1").click( function() {
+		// if button1 is clicked this happens...
+		console.log("button1 clicked");
+		$("#photo").toggle();
+	})
+});
 </script>
 	
 </head>
 
 <body>
 <div id="container">
-  <h1>Lab 6: Javascript & jQuery</h1>
+
+<h1>Lab 6: Javascript & jQuery</h1>
+
+<button id="button1">Click button1</button>
+
+<button id="button2">Click button2</button>
+
+<button id="button3">Click button3</button>
   
-  <h3>Picture Section</h3>
+<h3>Picture Section</h3>
 
 <div id="picture">
  
-  <img src="bunny.jpg" />
+  <img id="photo" src="bunny.jpg" />
     <p class="caption">A young rabbit lying on the garden path. Photo by Jeremy Havens</p>
   <p>For more information, see these <a href="https://www.bing.com/images/search?q=rabbits+yawning&form=HDRSC4&first=1">images of yawning rabbits</a>.</p>
  </div>
