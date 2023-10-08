@@ -83,6 +83,8 @@ $(document).ready( function() {
 	console.log('hello');
 	$("#button1").click( function() {
 		console.log('hello from button1 click');
+		$("img").toggle();
+		$("#testp").text("testp text changed happened);
 	});
 });
 </script>
@@ -97,7 +99,7 @@ $(document).ready( function() {
 <button id="button1">Click button1</button>
 
 <button id="button2">Click button2</button>
-
+<p id="testp"></p>
   
 <h3>Picture Section</h3>
 
