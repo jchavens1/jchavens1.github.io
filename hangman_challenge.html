@@ -1,33 +1,100 @@
 <!doctype html>
 <html>
   <head>
-    <title>Hangman... the challenge!</title>
+    <title>Hangman Challenge!</title>
     <style>
 	body {
-		font-size: 200%;
+		font-size: 150%;
+		font-family: Georgia, serif;;
+		text-align: center;
+		
 	}
-      #alphabet { margin: auto;
-                  padding: 20px; 
-				  
-				  
-		}
-      #word { margin: auto;
-              font: 400em serif bold;
-              padding: 20px;
-            }
-      #info { padding: 20px; 
-			  height: 1em;
-              font-color: red;
-              background-color: yellow; 
-            }
+	#introImg {
+		margin: 0, auto;
+	}
+	#wordZone {
+		
+		height: 250px;
+	}
+	#wordZoneImg {
+		
+		width: 250px;
+		float: left;
+	}
+	#wordZoneText {
+		
+		margin-left: 300px;
+	}
+	
+	#alphabet { margin: auto;
+		padding: 20px; 
+	}
+	#word { 
+		margin: auto;
+		
+		font-size: 3em;
+		padding: 20px;
+		letter-spacing: .5em;
+		font-family: monospace;
+	}
+	#info { 
+		padding: 20px; 
+		height: 1em;
+		color: red;
+		
+	}
+	#startGame {
+		margin: 5em auto;
+	}
+	h1 {
+		font-family: "Goudy Stout", Georgia, serif;
+		color: #000;
+	}
+	button {
+		background-color: green;
+		padding: 5px 10px;
+		color: #fff;
+		border-radius: 10px;
+		border-color: #1f631b;
+	}
+	.mysteryWord {
+		padding: .5em;
+		font-weight: bold;
+		line-height: 2.5em;
+		
+	}
+	.letter {
+		background-color: #ccc;
+		font-family: monospace;
+		padding: 2px 10px;					
+		border: 1px solid #000;
+		border-radius: 50%;
+		line-height: 2em;
+	}
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
          $(document).ready( function() {
-              // this is the secret word!
-              word =  "j e e p e r s c r e e p e r s";
-              blank = "- - - - - - - - - - - - - - -";
-              $("#word").text(blank);
+		 
+		 $("#playingArea").hide();
+		 
+		 // gereated list at https://www.randomlists.com/random-words?dup=false&qty=100
+		 RandWords =["black", "bloody", "enormous", "defiant", "breezy", "boundless", "plane", "number", "jail", "wrist", "sound", "full", "cowardly", "reach", "daughter", "acrid", "uncovered", "detail", "jumbled", "sassy", "hurry", "sneeze", "jam", "foolish", "impulse", "certain", "tart", "pink", "first", "analyze", "tray", "deserted", "quirky", "marry", "grandfather", "pleasant", "unit", "foamy", "death", "lopsided", "trite", "jobless", "macabre", "egg", "blade", "maid", "reduce", "piquant", "crown", "rabid", "drain", "zebra", "club", "hypnotic", "provide", "erect", "knit", "learn", "shiny", "rude", "pour", "discussion", "divergent", "suspect", "guard", "sneaky", "tail", "sofa", "taste", "sticky", "cows", "frogs", "fuzzy", "fresh", "cub", "greedy", "defeated", "public", "festive", "magenta", "box", "punish", "aberrant", "things", "interest", "splendid", "hospitable", "dock", "light", "irritating", "cute", "jellyfish", "animal", "penitent", "attack", "groovy", "cruel", "hole", "cause", "bright"];
+		 
+		 randNum = Math.random() * 100 -1;
+		 randIndex = Math.round(randNum);
+		 console.log(randIndex);
+		 randWord = RandWords[randIndex];
+		 console.log(randWord);
+		 wordLength = randWord.length;
+		 randWordBlank = "";
+		 while ( wordLength > 0 ) {
+			randWordBlank = randWordBlank + "_";
+			wordLength = wordLength - 1;
+		 }
+		 console.log(randWordBlank);
+		 
+              
 			  
 
               // this is the list of letters that have been tried
@@ -40,7 +107,14 @@
               // boolean (true / false variable) to track if game has been won or lost
               gameWon = false;
               gameLost = false;
-                   
+
+				$("#startGame").click( function() {
+					$("#playingArea").show();
+					$("#word").text(randWordBlank);
+					$(this).hide();
+					$("#introImg").hide();
+				});
+				
               // when a user clicks on a letter... this is where everything happens!
               $(".letter").click( function() {
 
@@ -61,7 +135,7 @@
 						$("#info").text("Letter " + letter + " already tied");
                     // if the letter isn't in the word, reduce
                     // the number of tries and check if they lost
-                    } else if (! word.includes(letter)) {
+                    } else if (! randWord.includes(letter)) {
 
                       // reduce the number of remaining tries by 1
 						tries = tries - 1;
@@ -70,7 +144,8 @@
                       // are they out of tries? then they lost!
 						if (tries < 1) {
 							gameLost = true;
-							$("#info").text("You lost, Loser!");
+							$("#statusImg").attr("src","testImg3.png");
+							$("#info").text("You lose! The word is: " + RandWords[randIndex] );
 						}
                     
                     
@@ -83,17 +158,20 @@
                       // with the letter that was clicked on
                       // replace the blanks with letter in blank
                       // and replace the letters with blanks in word
-						while (word.includes(letter)) {
-							index = word.indexOf(letter);
-							word = word.substring(0, index) + " " + word.substring((index + 1));
-							blank = blank.substring(0, index) + letter + blank.substring((index + 1));
-							$("#word").text(blank);
+						while (randWord.includes(letter)) {
+							index = randWord.indexOf(letter);
+							randWord = randWord.substring(0, index) + " " + randWord.substring((index + 1));
+							randWordBlank = randWordBlank.substring(0, index) + letter + randWordBlank.substring((index + 1));
+							$("#word").text(randWordBlank);
 						}
                      
                       // check if the player has won the game
-						if (!blank.includes("-")) {
+						if (!randWordBlank.includes("_")) {
 							gameWon = true;
-							$("#info").text("You win! Have a cookie.");
+					
+							$("#info").css("color", "green").text("You win! Have a cookie.");
+							$("#statusImg").attr("src","testImg2.png");
+							$("#guesses").hide();
 						}
 
                     }
@@ -111,11 +189,27 @@
     </script>
   </head>
   <body>
-     <h1>My hangmen challenge modifications</h1>
-     <div id="guesses"></div>
-     <div id="info"></div>
-     <div id="word"></div>
-     <div id="alphabet"><p>Click to make a guess!</p>
+     <h1>Solve-A Word</h1>
+	 <button id="startGame">Click to pick a mystery word</button>
+	 <br>
+	 <img id="introImg" src="testImg1.png">
+	 
+	 <div id="playingArea">
+	 <hr>
+	 
+	 <div id="wordZone">
+		<div id="wordZoneImg"><img id="statusImg" src="testImg1.png"></div>
+		<div id="wordZoneText">
+			<p><span class="mysteryWord">Solve this mystery word:<br><span id="word"></span></span></p>
+			<div id="guesses"></div>
+			<div id="info"></div>
+		</div>
+	 </div>
+	 
+     
+     <hr>
+     
+     <div id="alphabet"><p>Click letter below make a guess:</p>
      <span class="letter" id="a">a</span>
      <span class="letter" id="b">b</span>
      <span class="letter" id="c">c</span>
@@ -143,5 +237,8 @@
      <span class="letter" id="y">y</span>
      <span class="letter" id="z">z</span>  
      </div>
+	 
+	 </div><!-- /playing area -->
+	 
   </body>
 </html>
