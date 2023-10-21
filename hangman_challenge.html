@@ -6,32 +6,27 @@
 	body {
 		font-size: 150%;
 		font-family: Georgia, serif;;
-		text-align: center;
-		
+		text-align: center;		
 	}
 	#introImg {
 		margin: 0, auto;
 	}
-	#wordZone {
-		
+	#wordZone {		
 		height: 250px;
 	}
-	#wordZoneImg {
-		
-		width: 250px;
+	#wordZoneImg {		
+		width: 400px;
+		height: 350px;
 		float: left;
 	}
 	#wordZoneText {
-		
 		margin-left: 300px;
-	}
-	
+	}	
 	#alphabet { margin: auto;
 		padding: 20px; 
 	}
 	#word { 
-		margin: auto;
-		
+		margin: auto;		
 		font-size: 3em;
 		padding: 20px;
 		letter-spacing: .5em;
@@ -40,8 +35,7 @@
 	#info { 
 		padding: 20px; 
 		height: 1em;
-		color: red;
-		
+		color: red;		
 	}
 	#startGame {
 		margin: 5em auto;
@@ -49,6 +43,10 @@
 	h1 {
 		font-family: "Goudy Stout", Georgia, serif;
 		color: #000;
+	}
+	.CountDracula {
+		font-size: 60%;
+		color: brown;
 	}
 	button {
 		background-color: green;
@@ -60,8 +58,7 @@
 	.mysteryWord {
 		padding: .5em;
 		font-weight: bold;
-		line-height: 2.5em;
-		
+		line-height: 2.5em;		
 	}
 	.letter {
 		background-color: #ccc;
@@ -76,11 +73,16 @@
     <script>
          $(document).ready( function() {
 		 
+		 function restart() {
+			console.log("restarted");
+		 };
+		 
+		 
 		 $("#playingArea").hide();
 		 
 		 // gereated list at https://www.randomlists.com/random-words?dup=false&qty=100
 		 RandWords =["black", "bloody", "enormous", "defiant", "breezy", "boundless", "plane", "number", "jail", "wrist", "sound", "full", "cowardly", "reach", "daughter", "acrid", "uncovered", "detail", "jumbled", "sassy", "hurry", "sneeze", "jam", "foolish", "impulse", "certain", "tart", "pink", "first", "analyze", "tray", "deserted", "quirky", "marry", "grandfather", "pleasant", "unit", "foamy", "death", "lopsided", "trite", "jobless", "macabre", "egg", "blade", "maid", "reduce", "piquant", "crown", "rabid", "drain", "zebra", "club", "hypnotic", "provide", "erect", "knit", "learn", "shiny", "rude", "pour", "discussion", "divergent", "suspect", "guard", "sneaky", "tail", "sofa", "taste", "sticky", "cows", "frogs", "fuzzy", "fresh", "cub", "greedy", "defeated", "public", "festive", "magenta", "box", "punish", "aberrant", "things", "interest", "splendid", "hospitable", "dock", "light", "irritating", "cute", "jellyfish", "animal", "penitent", "attack", "groovy", "cruel", "hole", "cause", "bright"];
-		 
+		 console.log(RandWords.length);
 		 randNum = Math.random() * 100 -1;
 		 randIndex = Math.round(randNum);
 		 console.log(randIndex);
@@ -91,154 +93,152 @@
 		 while ( wordLength > 0 ) {
 			randWordBlank = randWordBlank + "_";
 			wordLength = wordLength - 1;
+			
 		 }
 		 console.log(randWordBlank);
 		 
               
-			  
+		// this is the list of letters that have been tried
+		triedLetters = "";
 
-              // this is the list of letters that have been tried
-              triedLetters = "";
+		// this is the number of tries left
+		tries = 10;
+		$("#guesses").text("Remaining guesses: "+tries);
 
-              // this is the number of tries left
-              tries = 10;
-              $("#guesses").text("Remaining guesses: "+tries);
+		// boolean (true / false variable) to track if game has been won or lost
+		gameWon = false;
+		gameLost = false;
 
-              // boolean (true / false variable) to track if game has been won or lost
-              gameWon = false;
-              gameLost = false;
-
-				$("#startGame").click( function() {
-					$("#playingArea").show();
-					$("#word").text(randWordBlank);
-					$(this).hide();
-					$("#introImg").hide();
-				});
+		$("#startGame").click( function() {
+			$("#playingArea").show();
+			$("#word").text(randWordBlank);
+			$(this).hide();
+			$("#introImg").hide();
+			restart();
+		});
 				
-              // when a user clicks on a letter... this is where everything happens!
-              $(".letter").click( function() {
+		// when a user clicks on a letter... this is where everything happens!
+		$(".letter").click( function() {
 
-                  // check if the game has been won or lost
-                  if (gameWon != true && gameLost != true) {
-                    // erase the info box
-					$("#info").text("");
+		// check if the game has been won or lost
+		if (gameWon != true && gameLost != true) {
+			// erase the info box
+			$("#info").text("");
                 
-                    // use text to get the letter that was clicked on
-					letter = $(this).text();
-					console.log(letter);
+			// use text to get the letter that was clicked on
+			letter = $(this).text();
+			console.log(letter);
 
-                    // make a line through the letter
-					$(this).css("text-decoration", "line-through").css("color", "#cccccc");
-                    // if the letter has already been clicked on, 
-                    // let the user know it's already been tried
-                    if (triedLetters.includes(letter)) {
-						$("#info").text("Letter " + letter + " already tied");
-                    // if the letter isn't in the word, reduce
-                    // the number of tries and check if they lost
-                    } else if (! randWord.includes(letter)) {
+			// make a line through the letter
+			$(this).css("text-decoration", "line-through").css("color", "#cccccc");
+			// if the letter has already been clicked on, 
+			// let the user know it's already been tried
+			if (triedLetters.includes(letter)) {
+				$("#info").text("Letter " + letter + " already tied");
+				// if the letter isn't in the word, reduce
+				// the number of tries and check if they lost
+			} else if (! randWord.includes(letter)) {
 
-                      // reduce the number of remaining tries by 1
-						tries = tries - 1;
-						$("#guesses").text("Remaining guesses: " + tries);
+				// reduce the number of remaining tries by 1
+				tries = tries - 1;
+				$("#guesses").text("Remaining guesses: " + tries);
 
-                      // are they out of tries? then they lost!
-						if (tries < 1) {
-							gameLost = true;
-							$("#statusImg").attr("src","testImg3.png");
-							$("#info").text("You lose! The word is: " + RandWords[randIndex] );
-						}
+				// are they out of tries? then they lost!
+				if (tries < 1) {
+					gameLost = true;
+					$("#statusImg").attr("src","loseimg.jpg");
+					$("#info").text("You lose! The word is: " + RandWords[randIndex] );
+							
+				}
                     
                     
-                    // otherwise, put a line through it and
-                    // add it to the found letters
-                    // and check if the player won or lost
-                    } else {
-
-                      // replace the blanks in the blanks variable 
-                      // with the letter that was clicked on
-                      // replace the blanks with letter in blank
-                      // and replace the letters with blanks in word
-						while (randWord.includes(letter)) {
-							index = randWord.indexOf(letter);
-							randWord = randWord.substring(0, index) + " " + randWord.substring((index + 1));
-							randWordBlank = randWordBlank.substring(0, index) + letter + randWordBlank.substring((index + 1));
-							$("#word").text(randWordBlank);
-						}
+				// otherwise, put a line through it and
+				// add it to the found letters
+				// and check if the player won or lost
+			} else {
+				// replace the blanks in the blanks variable 
+				// with the letter that was clicked on
+				// replace the blanks with letter in blank
+				// and replace the letters with blanks in word
+			while (randWord.includes(letter)) {
+				index = randWord.indexOf(letter);
+				randWord = randWord.substring(0, index) + " " + randWord.substring((index + 1));
+				randWordBlank = randWordBlank.substring(0, index) + letter + randWordBlank.substring((index + 1));
+				$("#word").text(randWordBlank);
+			}
                      
-                      // check if the player has won the game
-						if (!randWordBlank.includes("_")) {
-							gameWon = true;
-					
-							$("#info").css("color", "green").text("You win! Have a cookie.");
-							$("#statusImg").attr("src","testImg2.png");
-							$("#guesses").hide();
-						}
+			// check if the player has won the game
+			if (!randWordBlank.includes("_")) {
+				gameWon = true;
+				$("#info").css("color", "green").text("You win! Have a cookie.");
+				$("#statusImg").attr("src","winimg.jpg");
+				$("#guesses").hide();
+			}
 
-                    }
+		}
 
-                    // add the letter to letters already tried
-					triedLetters = triedLetters + letter;
+		// add the letter to letters already tried
+		triedLetters = triedLetters + letter;
 
-                  }
-              });
+			}
+		});
 
-             // 
+		// 
            
-         });
+		});
       
     </script>
   </head>
   <body>
-     <h1>Solve-A Word</h1>
-	 <button id="startGame">Click to pick a mystery word</button>
-	 <br>
-	 <img id="introImg" src="testImg1.png">
+	<h1>Hangman Challenge<br>Solve-a-Word game</h1>
+	<button id="startGame">Click to pick a mystery word</button>
+	
+	
 	 
-	 <div id="playingArea">
-	 <hr>
+	<div id="playingArea">
+
 	 
-	 <div id="wordZone">
-		<div id="wordZoneImg"><img id="statusImg" src="testImg1.png"></div>
+	<div id="wordZone">
+		<div id="wordZoneImg"><img id="statusImg" src="defaultimg.jpg"></div>
 		<div id="wordZoneText">
 			<p><span class="mysteryWord">Solve this mystery word:<br><span id="word"></span></span></p>
 			<div id="guesses"></div>
 			<div id="info"></div>
 		</div>
-	 </div>
+	</div>
 	 
+
      
-     <hr>
-     
-     <div id="alphabet"><p>Click letter below make a guess:</p>
-     <span class="letter" id="a">a</span>
-     <span class="letter" id="b">b</span>
-     <span class="letter" id="c">c</span>
-     <span class="letter" id="d">d</span>
-     <span class="letter" id="e">e</span>
-     <span class="letter" id="f">f</span>
-     <span class="letter" id="g">g</span>
-     <span class="letter" id="h">h</span>
-     <span class="letter" id="i">i</span>
-     <span class="letter" id="j">j</span>
-     <span class="letter" id="k">k</span>
-     <span class="letter" id="l">l</span>
-     <span class="letter" id="m">m</span>
-     <span class="letter" id="n">n</span>
-     <span class="letter" id="o">o</span>
-     <span class="letter" id="p">p</span>  
-     <span class="letter" id="q">q</span>
-     <span class="letter" id="r">r</span>
-     <span class="letter" id="s">s</span>
-     <span class="letter" id="t">t</span>
-     <span class="letter" id="u">u</span>
-     <span class="letter" id="v">v</span>
-     <span class="letter" id="w">w</span>  
-     <span class="letter" id="x">x</span>
-     <span class="letter" id="y">y</span>
-     <span class="letter" id="z">z</span>  
-     </div>
+	<div id="alphabet"><p>Click a letter below make a guess:</p>
+		<span class="letter" id="a">a</span>
+		<span class="letter" id="b">b</span>
+		<span class="letter" id="c">c</span>
+		<span class="letter" id="d">d</span>
+		<span class="letter" id="e">e</span>
+		<span class="letter" id="f">f</span>
+		<span class="letter" id="g">g</span>
+		<span class="letter" id="h">h</span>
+		<span class="letter" id="i">i</span>
+		<span class="letter" id="j">j</span>
+		<span class="letter" id="k">k</span>
+		<span class="letter" id="l">l</span>
+		<span class="letter" id="m">m</span>
+		<span class="letter" id="n">n</span>
+		<span class="letter" id="o">o</span>
+		<span class="letter" id="p">p</span>  
+		<span class="letter" id="q">q</span>
+		<span class="letter" id="r">r</span>
+		<span class="letter" id="s">s</span>
+		<span class="letter" id="t">t</span>
+		<span class="letter" id="u">u</span>
+		<span class="letter" id="v">v</span>
+		<span class="letter" id="w">w</span>  
+		<span class="letter" id="x">x</span>
+		<span class="letter" id="y">y</span>
+		<span class="letter" id="z">z</span>  
+	</div>
 	 
-	 </div><!-- /playing area -->
+	</div><!-- /playing area -->
 	 
   </body>
 </html>
