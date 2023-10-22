@@ -147,7 +147,7 @@
 				if (tries < 1) {
 					gameLost = true;
 					$("#statusImg").attr("src","loseimg.jpg");
-					$("#info").text("You lose! The word is: " + RandWords[randIndex] ).text(" Refresh your browser for a different word puzzle.");
+					$("#info").text("You lose! The word is: " + RandWords[randIndex] + ". Refresh your browser for a different word puzzle.");
 							
 				}
                     
@@ -170,7 +170,7 @@
 			// check if the player has won the game
 			if (!randWordBlank.includes("_")) {
 				gameWon = true;
-				$("#info").css("color", "green").text("You win! Have a cookie.").text(" Refresh your browser for a different word puzzle.");
+				$("#info").css("color", "green").text("You win! Have a cookie. To play again, refresh your browser for a different word puzzle.");
 				$("#statusImg").attr("src","winimg.jpg");
 				$("#guesses").hide();
 			}
