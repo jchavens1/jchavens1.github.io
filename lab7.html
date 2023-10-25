@@ -1,30 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>Lab 7: Leaflet tutorial</title>
 	
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<style>
+body {
+	background-color: red;
+	font-family: Tahoma, sans-serif;
+	color: white;
+}
+h1 {
+	text-align: center;
+}
+#map {
+	height: 770px;
+}
+img {
+	width: 305px;
+	height: auto;
+}
+</style>
 	
-	<style>
-	#map { 
-		height: 180px;
-		background-color: #ccc;
-	}
-	</style>
 	
 	
 	
-	<script>
-	var map = L.map('map').setView([51.505, -0.09], 13);
-	</script>
 
 </head>
 <body>
-<h1>Lab 7: leaflet</h1>
+<h1>Lab 7: Alliance, Nebraska</h1>
+
 
 <div id="map"></div>
+<script>
+	
+	var map = L.map('map').setView([42.1189, -102.872], 14);
 
+	
+	
+	var wmsLayer = L.tileLayer.wms('https://basemap.nationalmap.gov/arcgis/services/USGSImageryOnly/MapServer/WMSServer', {
+    layers: '0', 
+	maxZoom: 16,
+	attribution: "<a href='https://www.usgs.gov/faqs/where-can-i-find-list-urls-national-map-services'>USGS</a>"
+}).addTo(map);
 
+	
+	
+	var markerRunza = L.marker([42.09483, -102.89763]).addTo(map);
+	var markerBean = L.marker([42.10919, -102.89675]).addTo(map);
+	var markerCarnegie = L.marker([42.09827, -102.87243]).addTo(map);
+	var markerBeer = L.marker([42.097012, -102.860264]).addTo(map);
+	
+	var circleCarhenge = L.circle([42.14217, -102.85794], {
+		color: 'blue',
+		fillColor: 'yellow',
+		weight: 5,
+		fillOpacity: .2,
+		radius: 80
+	}).addTo(map);
+	
+	var polygonDFT = L.polygon([
+		[42.1195, -102.8685],		
+		[42.1205, -102.8685],
+		[42.1205, -102.867],
+		[42.1195, -102.867]
+	], {color: 'blue', fillColor: 'yellow',	weight: 5,
+		fillOpacity: .2, lineJoin: 'square'} ).addTo(map);
+	
+	var polyline = L.polyline([	
+		[42.11939, -102.85813],
+		[42.11939, -102.83883]
+	], {weight: 10, color: 'yellow', lineCap: 'square'});	
+	polyline.addTo(map);
+	
+	
+	polygonDFT.bindPopup("<h4>Dobby's Frontier Town</h4>See what olden-time life was like on the plains in this volunteer-run collection of old buildings and artifacts");
+	markerRunza.bindPopup("<h4>Runza Restaurant</h4>A chain restaurant that serves the Nebraska favorite, kraut rolls.");
+	markerBean.bindPopup("<h4>New Alliance Bean & Grain Co<h4>");
+	markerBeer.bindPopup("<h4>Brewery 719</h4>");
+	markerCarnegie.bindPopup("<h4><a href='https://www.carnegieartscenter.com/'>Carnegie Art Center</a></h4>");
+	circleCarhenge.bindPopup("<h4>Carhenge</h4>'The Nebraska answer to Stonehenge'. Instead of stones, it is a druid circle made of old cars.<br><img src='carhengeSm.jpg'><br>Photo by JH, taken on his last vacation.");
+	polyline.bindPopup("The length of this line is 1 mile");
+	
+	var popupScale = L.popup()
+		.setLatLng([42.11939, -102.84848])
+		.setContent("The length of this line is 1 mile")
+		.openOn(map);
+	
+	var popup = L.popup();
+
+	
+
+</script>
+
+<p>If you see a webpage about Alliance, Nebraska, it will most certainly mention Carhenge. This map shows the location of that spectacle as well as a few other locales in town.</p>
 </body>
 </html>
