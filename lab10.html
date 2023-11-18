@@ -34,7 +34,7 @@
 		    height: 18px;
 		    float: left;
 		    margin-right: 8px;
-		    opacity: 0.8%;
+		    opacity: 0.8;
 		}
 		
 		h1 { color: #3293a8;
@@ -139,7 +139,7 @@
 
 			div.innerHTML = '<h2>% Age over 65</h2><br>';
 			for (var i = 0; i < colors.length; i++) {
-				div.innerHTML += '<i style="background:' + getColor(colors[i]) + '"></i> ' + labels[i] + '<br>';
+				div.innerHTML += '<i style="background:' + colors[i] + '"></i> ' + labels[i] + '<br>';
 			}
 			return div;
 		};
