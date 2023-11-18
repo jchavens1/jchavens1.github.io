@@ -89,8 +89,8 @@
 
 		function style1(feature) {
 			d = feature.properties.PCT_AGE65PLUS;
-			answer = d > 100 ? '#000000':
-				d > 75 ? '#0D0887':
+			answer = d > 100 ? '#FF0000':
+				d > 50 ? '#0D0887':
 				d > 35 ? '#7E03A8':
 				d > 20 ? '#CC4779':
 				d > 10 ? '#F99541':
@@ -133,10 +133,10 @@
 		
 		legend.onAdd = function (map) {
 			var div = L.DomUtil.create('div', 'info legend');			
-			colors = ['#F1FA22', '#F99541', '#CC4779', '#7E03A8', '#0D0887', '#000000'];
-			labels = ['0 - 10', '10 - 20', '20 - 35', ' 35 - 75', '75+', 'error'];
+			colors = ['#F1FA22', '#F99541', '#CC4779', '#7E03A8', '#FF0000'];
+			labels = ['0 - 10', '10 - 20', '20 - 35', ' 35 - 50', 'error'];
 
-			div.innerHTML = '<h2>3: % Age over 65</h2><br>';
+			div.innerHTML = '<h3>% Age over 65</h3><br>';
 			for (var i = 0; i < colors.length; i++) {
 				div.innerHTML += '<i style="background:' + colors[i] + '"></i> ' + labels[i] + '<br>';
 			}
