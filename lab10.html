@@ -131,10 +131,10 @@
 		
 		legend.onAdd = function (map) {
 			var div = L.DomUtil.create('div', 'info legend');			
-			colors = ['#FFEDA0', '#FED976', '#FD8D3C', '#FC4E2A'];
-			labels = ['0 - 1 %', '15 - 20 %', '20 - 30 %', '30% +'];
+			colors = ['#F1FA22', '#F99541', '#CC4779', '#7E03A8', '#0D0887'];
+			labels = ['0 - 10', '10 - 20', '20 - 35', ' 35 - 75', '75+'];
 
-			div.innerHTML = '<h2>1: % Age over 65</h2><br>';
+			div.innerHTML = '<h2>2: % Age over 65</h2><br>';
 			for (var i = 0; i < colors.length; i++) {
 				div.innerHTML += '<i style="background:' + colors[i] + '"></i> ' + labels[i] + '<br>';
 			}
