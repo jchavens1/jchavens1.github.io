@@ -20,7 +20,7 @@
 			margin: 0;
 		}
 		
-		#map { width:100%; height: 90%; }
+		#map { width:100%; height: 80%; }
 		
 		h1 { color: #000000;
 		     font-family: Georgia;
@@ -83,8 +83,8 @@
 		// let's add the Denver ACS data -- ##4 here
 		$.getJSON('denverflood1965.geojson', function(data) {
 			// convert file (data) into a layer
-			denverflood = L.geoJSON(data, {color: 'pink', fillColor: '#cccccc', weight: 1,
-		fillOpacity: .5, lineJoin: 'square'}).addTo(map);
+			denverflood = L.geoJSON(data, {color: '#000000', fillColor: '#470ff5', weight: 2,
+		fillOpacity: .2, lineJoin: 'square'}).addTo(map);
 			
 			// move the map to teh area of teh data
 			map.panTo(denverflood.getBounds().getCenter());
