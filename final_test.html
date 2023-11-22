@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>Wemapping Final Project</title>
+	<title>Webmapping Final Project</title>
 	
 	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
 
@@ -73,13 +73,12 @@
 		// let's add the Denver ACS data -- ##4 here
 		$.getJSON('./denverflood1965', function(data) {
 			// convert file (data) into a layer
-			acsDenver2021Layer = L.geoJSON(data).addTo(map);
+			denverflood = L.geoJSON(data).addTo(map);
 			
 			// move the map to teh area of teh data
-			map.panTo(acsDenver2021Layer.getBounds().getCenter());
+			map.panTo(denverflood.getBounds().getCenter());
 			
-			// add map to the layer controls
-			layerControl.addOverlay(acsDenver2021Layer, "Census 2021");
+			
 		});
 
 		
