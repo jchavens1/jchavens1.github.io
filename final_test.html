@@ -36,6 +36,10 @@
 			margin: auto;
 			align: center;
 		}
+		#map img {
+			width: 300px;
+			height: auto;
+		}
 		
 		a { text-decoration: none; color: inherit; }
 	</style>
@@ -90,7 +94,9 @@
        			 .openOn(map);
 		}
 
-map.on('click', onMapClick);
+		map.on('click', onMapClick);
+
+		var popupZuni11 = L.popup().setLatLng([39.733883, -105.016015]).setContent("<img src'zuni_11.png'><br>Photographer: Terry Brennan").openOn(map);
 
 
 	// end document ready
