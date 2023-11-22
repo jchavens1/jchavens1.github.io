@@ -83,7 +83,8 @@
 		// let's add the Denver ACS data -- ##4 here
 		$.getJSON('denverflood1965.geojson', function(data) {
 			// convert file (data) into a layer
-			denverflood = L.geoJSON(data).addTo(map);
+			denverflood = L.geoJSON(data, {color: 'pink', fillColor: '#cccccc', weight: 1,
+		fillOpacity: .5, lineJoin: 'square'}).addTo(map);
 			
 			// move the map to teh area of teh data
 			map.panTo(denverflood.getBounds().getCenter());
