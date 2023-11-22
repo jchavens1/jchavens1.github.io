@@ -87,6 +87,7 @@
 		});
 
 		var popup = L.popup();
+		
 
 		function onMapClick(e) {popup
        			 .setLatLng(e.latlng)
@@ -96,7 +97,9 @@
 
 		map.on('click', onMapClick);
 
-		var popupZuni11 = L.popup().setLatLng([39.733883, -105.016015]).setContent("<img src'zuni_11.png'><br>Photographer: Terry Brennan").openOn(map);
+		
+		var popupZuni11 = L.marker([39.7334, -105.7339]).addTo(map);
+		popupZuni11.bindPopup("<img src='zuni_11.png'><br>Photographer: Terry Brennan. Denver Public Library Special Collections.");
 
 
 	// end document ready
