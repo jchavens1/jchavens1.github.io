@@ -71,7 +71,7 @@
 		var layerControl = L.control.layers(baseMaps, null).addTo(map);
 
 		// let's add the Denver ACS data -- ##4 here
-		$.getJSON('./denverflood1965', function(data) {
+		$.getJSON('denverflood1965', function(data) {
 			// convert file (data) into a layer
 			denverflood = L.geoJSON(data).addTo(map);
 			
