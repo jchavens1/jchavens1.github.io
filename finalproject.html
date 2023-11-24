@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>Denver Flood 1965</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			font-family: sans-serif;
+			background-color: #ad9b90;
+		}
+		
+		#header {
+			width: 100%;
+			height: 120px;
+			margin: auto;
+			padding: 15px 0 15px 15px;
+			align: center;
+			background-image: url('banner.jpg');
+			background-size: 100%;
+		}
+		
+		#pagetext {
+			padding: 1.5em;
+			background-color: #d3e8f2;
+			line-height: 1.5em;
+		}
+		
+		#map { 
+			width:100%;
+			height: 80%; 
+		}
+		
+		#map img {
+			width: 480px;
+			height: auto;			
+		}
+		.credits {
+			font-size: smaller;
+		}
+		h1 {
+			font-family: 'Bookman Old Style', 'Times New Roman', 'Times', serif;
+			font-size: 40px;
+			color: #e4eaf6;
+			align: center;
+			line-height: .75em;
+		}
+		a {
+			color: #0b347a;
+			text-decoration: none;
+		}
+		
+	</style>
+
+<script>
+
+        // the document ready wraps our javascript
+	// to make sure that everything loads in the 
+	// right order
+	$(document).ready(function() {
+
+		// let's create our basemap! -- ##1 here
+		map = L.map('map').setView([0,0], 8);
+		
+		// let's add three sets of background tiles - one from OSM,  one from HOT OSM, and one from openTopoMap
+		var OSMTiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		}).addTo(map);
+		var HOTOSMTiles = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+    		attribution: '© OpenStreetMap contributors, Tiles style by Humanitarian OpenStreetMap Team hosted by OpenStreetMap France'});
+		var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+			attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'});
+		var wmsLayer = L.tileLayer.wms('https://basemap.nationalmap.gov/arcgis/services/USGSImageryOnly/MapServer/WMSServer', {
+    			layers: '0', 
+			maxZoom: 16,
+			attribution: "<a href='https://www.usgs.gov/faqs/where-can-i-find-list-urls-national-map-services'>USGS</a>"});
+
+		// this is an object to keep track of our three basemaps -- ##2 here
+		var baseMaps = { "OpenStreetMap": OSMTiles,
+			"USGS": wmsLayer,
+			"OpenTopoMap": OpenTopoMap };
+
+		// the control let's the user turn on / off layers -- ##3 here
+		var layerControl = L.control.layers(baseMaps, null).addTo(map);
+
+		var popupZuni11 = L.marker([39.7334, -105.016079]).addTo(map);
+		popupZuni11.bindPopup("<img src='zuni_11.jpg'><br>Photographer: Terry Brennan. Denver Public Library Special Collections.", {maxWidth: "500px"});
+
+		// let's add the Denver ACS data -- ##4 here
+		$.getJSON('denverflood1965.geojson', function(data) {
+			// convert file (data) into a layer
+			denverflood = L.geoJSON(data, {color: '#20076e', fillColor: '#470ff5', weight: 2, fillOpacity: .2, lineJoin: 'square'}).addTo(map);
+			
+			// move the map to teh area of teh data
+			map.panTo(denverflood.getBounds().getCenter());
+
+			var layerControl = L.control.layers(basemaps, null).assto(map);
+			
+		});
+
+		var popup = L.popup();
+		
+
+		function onMapClick(e) {popup
+       			 .setLatLng(e.latlng)
+       			 .setContent("You clicked the map at " + e.latlng.toString())
+       			 .openOn(map);
+		}
+
+		map.on('click', onMapClick);
+		
+		$("button").click( function() {
+			$("#pagetext").toggle('slow');
+		});
+		
+		// end document ready
+	});
+
+</script>
+</head>
+<body>
+
+
+<div id="header">
+	<h1>Denver's Great Flood of June 1965</h1>
+
+
+<button>Click for info</button>
+</div><!-- /#header -->
+<div id="pagetext">
+	<p>At 2 o'clock on the afternoon of June 16, 1965, incredibly intense rains fell south of Denver &mdash; <i>14 inches in 3 hours!</i> &mdash; that resulted in flooding by 8 pm on the South Platte River by way of Plum Creek basin. It was the largest flooding event in Denver in over a century. By morning the flood had passed, though many areas were innundated by water and homes, business, and infrastructure sustained damage. 28 people died and property damage came to $543,000,000. In order to mitigate against flooding  like that again, the U.S. Army Corps of Engineers began contruction on Chatfield Reservoir in 1967 and finished in 1973.</p>
+	<p>For further reading, which includes the information above, check out U.S. Geological Survey Water Supply Paper 1850, <a href="https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado">"Floods of June 1965 in South Platte River basin, Colorado"</a> as well as HistoryColorado's <a href="https://coloradoencyclopedia.org/article/south-platte-flood-1965">Colorado Encyclopedia article</a>. Photos, unless otherwise noted, are from the <a href="https://digital.denverlibrary.org/digital/search/searchterm/photograph!1965%20flood/field/formatb!all/mode/exact!all/conn/and!all">Denver Public Library Special Collections</a>. Banner image, also from the Denver Library, was taken by George E. Meister.</p>
+</div><!-- /#pagecontent -->
+
+<div id="map"></div>
+
+
+</body>
+</html>
