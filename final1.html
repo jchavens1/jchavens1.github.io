@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>Final Sandbox</title>
+	<title>Denver 1965 Flood</title>
 	
 	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
 
@@ -173,9 +173,11 @@
        			 .setLatLng(e.latlng)
        			 .setContent("You clicked the map at " + e.latlng.toString())
        			 .openOn(map);
-		} */
+		} 
+  		map.on('click', onMapClick);
+  		*/
 
-		map.on('click', onMapClick);
+		
 		
 		// button to show/hide page text
 		// to toggle, I added a counters that do actions if it is even or odd... kind of kludgey ):
