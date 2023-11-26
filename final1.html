@@ -173,11 +173,10 @@
        			 .setLatLng(e.latlng)
        			 .setContent("You clicked the map at " + e.latlng.toString())
        			 .openOn(map);
-		} 
-  		map.on('click', onMapClick);
-  		*/
-
 		
+
+		map.on('click', onMapClick);
+		} */
 		
 		// button to show/hide page text
 		// to toggle, I added a counters that do actions if it is even or odd... kind of kludgey ):
@@ -199,7 +198,7 @@
 			if (viewCounter % 2 == 0) {
 				map.setView([40.1496,-104.2053], 8);
 			} else {
-				map.setView([40,-105], 11);
+				map.setView([39.69667, -104.99443], 11);
 			}
 		});
 		
