@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>Denver 1965 Flood</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			font-family: Verdana, sans-serif;
+			background-color: #000000;
+		}
+		
+		#header {
+			width: 100%;
+			height: 110px;
+			margin: auto;
+			padding: 5px 0 10px 15px;
+			align: center;
+		}
+		
+		#pagetext {
+			padding: 1.5em;
+			background-color: #ffffff;
+			line-height: 1.5em;			
+		}
+		
+		#map { 
+			width:100%;
+			height: 80%; 
+		}
+		
+		#map img {
+			width: 480px;
+			height: auto;			
+		}
+		
+		.credits {
+			font-size: smaller;
+			color: #ffffff;
+			padding-left: 15px;
+		}
+		
+
+		.legend {
+			background-color: #f2efe9;
+			color: #000000;
+			padding: 0 2em 2em 2em;
+		}
+		.legend span {
+			width: 30px;
+			height: 10px;
+			background-color: #470ff5;
+			border-color: #20076e;
+		}
+
+		h1 {
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 36px;
+			color: #ffffff;
+			align: center;
+			line-height: .75em;
+		}
+		a {
+			color: #0b347a;
+			text-decoration: none;
+		}
+		button {
+			margin-right: 10px;
+		}
+		table img {
+			width: ;
+			height: ;
+		}
+		
+	</style>
+
+<script>
+
+
+	$(document).ready(function() {
+		$("#pagetext").hide();
+		$("#infobutton").text('Show info');
+		map = L.map('map').setView([40,-105], 11);
+		
+		var OSMTiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		}).addTo(map);
+		var HOTOSMTiles = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+    		attribution: '© OpenStreetMap contributors, Tiles style by Humanitarian OpenStreetMap Team hosted by OpenStreetMap France'});
+		var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+			attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'});
+
+		var wmsLayer = L.tileLayer.wms('https://basemap.nationalmap.gov/arcgis/services/USGSImageryOnly/MapServer/WMSServer', {
+    			layers: '0', 
+			maxZoom: 16,
+			attribution: "<a href='https://www.usgs.gov/faqs/where-can-i-find-list-urls-national-map-services'>USGS</a>"});
+
+		// this is an object to keep track of our three basemaps -- ##2 here
+		var baseMaps = { "OpenStreetMap": OSMTiles,
+			"USGS": wmsLayer,
+			"OpenTopoMap": OpenTopoMap	
+		};
+
+		// the control let's the user turn on / off layers -- ##3 here
+		var layerControl = L.control.layers(baseMaps, null).addTo(map);
+
+		
+		
+		
+		
+		
+
+		// add geoJSON of flooded area georeferenced in ArcGIS
+		$.getJSON('denverflood1965.geojson', function(data) {
+			// convert file (data) into a layer
+			denverflood = L.geoJSON(data, {color: '#20076e', fillColor: '#470ff5', weight: 2, fillOpacity: .2, lineJoin: 'square'}).addTo(map);
+			
+			map.panTo(denverflood.getBounds().getCenter());
+
+			var layerControl = L.control.layers(basemaps, null).assto(map);		
+		});
+		// add geoJSON of flooded area georeferenced in ArcGIS
+		$.getJSON('iso1_FeaturesToJSON.geojson', function(data) {
+			// convert file (data) into a layer
+			 isobars = L.geoJSON(data, {color: '#000000', weight: 1, lineJoin: 'square'}).addTo(map);
+			
+			map.panTo(isobars.getBounds().getCenter());
+
+			var layerControl = L.control.layers(basemaps, null).assto(map);		
+		});
+		
+	
+		/* Along with the Lab 10 Legend instructions, I played with the online codepen page for ideas how to create my static legend: https://codepen.io/haakseth/pen/KQbjdO*/
+		var legend = L.control({ position: "bottomright" });
+		legend.onAdd = function(map) {
+			var div = L.DomUtil.create("div", "legend");
+			
+			// div.innerHTML = "<h4>Legend</h4><span>&mdash;&mdash;</span> Flooding mapped by USGS<br><img src='DefaultMarker.png' style='width:25px; height;41px'> Point of interest";
+			div.innerHTML = "<p><b>Legend</b></p><table><tr><td style='width: 20px; background-color: #470ff5;'></td><td>Flood mapped by USGS</td></tr><tr><td><img src='point_blue.png' style='height: 21px; width: 14px;'></td><td>Precipitation reading</td></tr><tr><td><img src='point_red.png' style='height: 21px; width: 14px;'></td><td>Water data location</td></tr><tr><td><img src='point_gray.png' style='height: 21px; width: 14px;'></td><td>Photograph</td></tr></table>";
+  
+			return div;
+		};
+
+		legend.addTo(map);		
+
+				
+		// button to show/hide page text
+		// to toggle, I added a counters that do actions if it is even or odd... kind of kludgey ):
+		var infoCounter = 2;
+		$("#infobutton").click( function() {
+			infoCounter++;
+			if (infoCounter % 2 == 0) {
+				$("#pagetext").hide('slow');
+				$("#infobutton").text('Show info');
+			} else {
+				$("#pagetext").show('slow');
+				$("#infobutton").text('Hide info');
+			}
+		});
+		// button to change zoom on map
+		var viewCounter = 1;
+		$("#mapswitcher").click( function() {
+			viewCounter++;
+			if (viewCounter % 2 == 0) {
+				map.setView([40.1496,-104.2053], 8);
+			} else {
+				map.setView([39.69667, -104.99443], 11);
+			}
+		});
+		
+		// modified from Leaflet Quickstart tutorial. I left off icon shadow as I could not get that to work well... yet!
+		var myIcon = L.Icon.extend({
+			options: {
+				iconSize:     [27, 42],
+				iconAnchor:   [14, 42],
+				popupAnchor:  [0, -42]
+			}
+		});
+		var blueIcon = new myIcon({iconUrl: 'point_blue.png'}),
+		redIcon = new myIcon({iconUrl: 'point_red.png'}),
+		grayIcon = new myIcon({iconUrl: 'point_gray.png'});
+		
+		
+		L.marker([40.9794, -102.2542], {icon: redIcon}).addTo(map).bindPopup("<img src='gageJulesburg.jpg'><br>Gage measurements at 6-7640: South Platte River at Julesburg, Colo. Drainage area: 23,138 sq mi. (page B58 from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a>).", {maxWidth: "500px"});
+		L.marker([39.92, -104.871667], {icon: redIcon}).addTo(map).bindPopup("<img src='gageHenderson.jpg'><br>Gage measurements at 6-7205: South Platte River at Henderson, Colo. Drainage area: 4,713 sq mi. (page B45 from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a>).", {maxWidth: "500px"});
+		L.marker([39.6194, -105.0194], {icon: redIcon}).addTo(map).bindPopup("<img src='gageLittleton.jpg'><br>Gage measurements at 6-7100: South Platte River at Littleton, Colo. Drainage area: 3,069 sq mi. (page B39 from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a>).", {maxWidth: "500px"});
+		L.marker([39.595, -104.8122], {icon: redIcon}).addTo(map).bindPopup("<img src='gageMelvin.jpg'><br>Gage measurements at 6-7125: Cherry Creek near Melvin, Colo. Drainage area: 336 sq mi. (page B41 from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a>).", {maxWidth: "500px"});
+		L.marker([39.2097, -104.5333], {icon: redIcon}).addTo(map).bindPopup("<img src='gageElbert.jpg'><br>Gage measurements at 6-7580: Kiowa Creek at Elbert, Colo. Drainage area: 28.6 sq mi. (page B53 from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a>).", {maxWidth: "500px"});
+		
+		L.marker([39.7334, -105.016079], {icon: grayIcon}).addTo(map).bindPopup("<img src='zuni_11.jpg'><br>June 17, 1965: Zuni and 11th. Photographer: Terry Brennan. Denver Public Library Special Collections.", {maxWidth: "500px"});
+		L.marker([39.6967, -104.9920], {icon: grayIcon}).addTo(map).bindPopup("<img src='miss_santafe.jpg'><br>June 17, 1965: Mississippi Ave. & Santa Fe Blvd. Photo: Denver Public Library Special Collections.", {maxWidth: "500px"});
+		L.marker([39.74039, -105.013998], {icon: grayIcon}).addTo(map).bindPopup("<img src='colfax_valleyhwy.jpg'><br>June 17, 1965: Colfax Ave. & the Valley Highway. Photographer: Terry Brennan. Denver Public Library Special Collections.", {maxWidth: "500px"});
+		L.marker([39.7113, -105.0007], {icon: grayIcon}).addTo(map).bindPopup("<img src='alameda_platte.jpg'><br>June 17, 1965: Alameda Ave. & South Platte. Photo: Denver Public Library Special Collections.", {maxWidth: "500px"});		
+		L.marker([39.4296, -104.9353], {icon: grayIcon}).addTo(map).bindPopup("<img src='EastPlumCreekFlood.jpg'><br>East Plum Creek during the flood (rough guess of photo location). Photo by Lowell Georgia, taken from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a>, p. B17", {maxWidth: "500px"});
+		L.marker([39.7450, -105.0087], {icon: grayIcon}).addTo(map).bindPopup("<img src='fl_hungarianflour.jpg'><br>June 17, 1965: Hungarian Flour Mill (1441 7th St.), which is on now the Auraria Campus. Photo: Denver Public Library Special Collections.", {maxWidth: "500px"});
+		L.marker([39.69667, -104.99443], {icon: grayIcon}).addTo(map).bindPopup("<img src='fl_texaco.jpg'><br>June 17, 1965: Texaco Station on Mississippi Ave. & Fox St. Photo: Terry Brennan, Denver Public Library Special Collections.", {maxWidth: "500px"});
+		
+		L.marker([39.333235, -104.88236], {icon: blueIcon}).addTo(map).bindPopup("Precipitation total: 14 inches<p>Total on June 16, 1965. Approx. location derived from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a></p>", {width: "400px"});
+		L.marker([39.2159, -104.8862], {icon: blueIcon}).addTo(map).bindPopup("Precipitation total: 14 inches<p>Total on June 16, 1965. Approx. location derived from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a></p>", {width: "400px"});
+		L.marker([39.2803, -104.9027], {icon: blueIcon}).addTo(map).bindPopup("Precipitation total: 12 inches<p>Total on June 16, 1965. Approx. location derived from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a></p>", {width: "400px"});
+		L.marker([39.7559, -104.894435], {icon: blueIcon}).addTo(map).bindPopup("Precipitation total: 0.64 inches<p>Total on June 16, 1965. Approx. location derived from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a></p>", {width: "400px"});
+		
+		
+		
+		// end document ready
+	});
+
+</script>
+</head>
+<body>
+
+
+<div id="header">
+	<h1>Denver's Great Flood of June 1965</h1>
+
+
+<button id="infobutton">Click for info</button><button id="mapswitcher">Change map view</button>
+</div><!-- /#header -->
+<div id="pagetext">
+	<img src="floodhelicopterview.jpg" alt="" style="float:left; width: 40%; margin-right: 20px;">
+	<p>At 2 o'clock on the afternoon of June 16, 1965, incredibly intense rains fell south of Denver &mdash; <i>14 inches in 3 hours in some locations</i>. By 8 pm, the South Platte River, by way of the Plum Creek basin, flooded Denver. It was the largest flooding event in Denver in over a century. By morning the flood had passed, but many areas adjacent to the Platte remained innundated by water, and homes, business, and infrastructure sustained damage. 28 people died and property damage came to $543,000,000. In order to mitigate against the future flooding of Denver, the U.S. Army Corps of Engineers began contruction on Chatfield Reservoir in 1967 and finished in 1973.</p>
+	
+	<p>The colorized photo to the left, taken around 10 am on June 17, shows the swamped railyards near 23rd Street and the South Platte River. Photo by George E. Meister.</p> 
+	
+	
+	<p>Information found on this page comes from U.S. Geological Survey Water Supply Paper 1850, <a href="https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado">"Floods of June 1965 in South Platte River basin, Colorado"</a> and HistoryColorado's <a href="https://coloradoencyclopedia.org/article/south-platte-flood-1965">Colorado Encyclopedia article</a>. Photos, unless otherwise noted, are from the <a href="https://digital.denverlibrary.org/digital/search/searchterm/photograph!1965%20flood/field/formatb!all/mode/exact!all/conn/and!all">Denver Public Library Special Collections</a>. Banner image, also from the Denver Public Library, was taken by George E. Meister.</p>
+</div><!-- /#pagecontent -->
+
+<div id="map"></div>
+
+<p class="credits">Created by Jeremy Havens, November 2023.</p>
+
+</body>
+</html>
