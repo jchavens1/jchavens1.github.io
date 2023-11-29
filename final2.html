@@ -119,11 +119,6 @@
 
 		// the control let's the user turn on / off layers -- ##3 here
 		var layerControl = L.control.layers(baseMaps, null).addTo(map);
-
-		
-		
-		
-		
 		
 
 		// add geoJSON of flooded area georeferenced in ArcGIS
@@ -186,8 +181,7 @@
 		var blueIcon = new myIcon({iconUrl: 'point_blue.png'}),
 		redIcon = new myIcon({iconUrl: 'point_red.png'}),
 		grayIcon = new myIcon({iconUrl: 'point_gray.png'});
-		
-		
+				
 		L.marker([40.9794, -102.2542], {icon: redIcon}).addTo(map).bindPopup("<img src='gageJulesburg.jpg'><br>Gage measurements at 6-7640: South Platte River at Julesburg, Colo. Drainage area: 23,138 sq mi. (page B58 from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a>).", {maxWidth: "500px"});
 		L.marker([39.92, -104.871667], {icon: redIcon}).addTo(map).bindPopup("<img src='gageHenderson.jpg'><br>Gage measurements at 6-7205: South Platte River at Henderson, Colo. Drainage area: 4,713 sq mi. (page B45 from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a>).", {maxWidth: "500px"});
 		L.marker([39.6194, -105.0194], {icon: redIcon}).addTo(map).bindPopup("<img src='gageLittleton.jpg'><br>Gage measurements at 6-7100: South Platte River at Littleton, Colo. Drainage area: 3,069 sq mi. (page B39 from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a>).", {maxWidth: "500px"});
@@ -206,9 +200,7 @@
 		L.marker([39.2159, -104.8862], {icon: blueIcon}).addTo(map).bindPopup("Precipitation total: 14 inches<p>Total on June 16, 1965. Approx. location derived from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a></p>", {width: "400px"});
 		L.marker([39.2803, -104.9027], {icon: blueIcon}).addTo(map).bindPopup("Precipitation total: 12 inches<p>Total on June 16, 1965. Approx. location derived from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a></p>", {width: "400px"});
 		L.marker([39.7559, -104.894435], {icon: blueIcon}).addTo(map).bindPopup("Precipitation total: 0.64 inches<p>Total on June 16, 1965. Approx. location derived from <a href='https://www.usgs.gov/publications/floods-june-1965-south-platte-river-basin-colorado'>USGS Water Supply Paper 1850</a></p>", {width: "400px"});
-		
-		
-		
+				
 		// end document ready
 	});
 
