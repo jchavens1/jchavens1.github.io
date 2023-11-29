@@ -133,7 +133,7 @@
 		// rain isohymal data from USGS report
 		$.getJSON('iso1_FeaturesToJSON.geojson', function(data) {
 			// convert file (data) into a layer
-			 isobars = L.geoJSON(data, {color: '#20076e', weight: 2, lineJoin: 'square'}).addTo(map);
+			 isobars = L.geoJSON(data, {color: '#3A8F8A', weight: 1, lineJoin: 'square'}).addTo(map);
 			
 			map.panTo(isobars.getBounds().getCenter());
 
