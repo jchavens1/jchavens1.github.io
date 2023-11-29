@@ -130,6 +130,15 @@
 
 			var layerControl = L.control.layers(basemaps, null).assto(map);		
 		});
+		// rain isohymal data from USGS report
+		$.getJSON('iso1_FeaturesToJSON.geojson', function(data) {
+			// convert file (data) into a layer
+			 isobars = L.geoJSON(data, {color: '#20076e', weight: 2, lineJoin: 'square'}).addTo(map);
+			
+			map.panTo(isobars.getBounds().getCenter());
+
+			var layerControl = L.control.layers(basemaps, null).assto(map);		
+		});
 		
 	
 		/* Along with the Lab 10 Legend instructions, I played with the online codepen page for ideas how to create my static legend: https://codepen.io/haakseth/pen/KQbjdO*/
