@@ -146,26 +146,13 @@
 		});
 		
 		// add geoJSON of isoheytals
-		$.getJSON('iso_1.geojson', function(data) {
+		$.getJSON('iso1_FeaturesToJSON.geojson', function(data) {
 			// convert file (data) into a layer
 			 isobars = L.geoJSON(data, {color: '#000000', weight: 0.5, lineJoin: 'square'}).addTo(map);			
 			map.panTo(isobars.getBounds().getCenter());
 			var layerControl = L.control.layers(basemaps, null).assto(map);		
 		});
-		// add geoJSON of isoheytals
-		$.getJSON('iso_5.geojson', function(data) {
-			// convert file (data) into a layer
-			 isobars = L.geoJSON(data, {color: '#000000', weight: 1, lineJoin: 'square'}).addTo(map);			
-			map.panTo(isobars.getBounds().getCenter());
-			var layerControl = L.control.layers(basemaps, null).assto(map);		
-		});
-		// add geoJSON of isoheytals
-		$.getJSON('iso_10.geojson', function(data) {
-			// convert file (data) into a layer
-			 isobars = L.geoJSON(data, {color: '#000000', weight: 3, lineJoin: 'square'}).addTo(map);			
-			map.panTo(isobars.getBounds().getCenter());
-			var layerControl = L.control.layers(basemaps, null).assto(map);		
-		});
+		
 		
 	
 		/* Along with the Lab 10 Legend instructions, I played with the online codepen page for ideas how to create my static legend: https://codepen.io/haakseth/pen/KQbjdO*/
