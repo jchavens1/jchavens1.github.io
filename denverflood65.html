@@ -142,15 +142,15 @@
 		
 		// add geoJSON of isoheytals
 		$.getJSON('iso_1.geojson', function(data) {			
-			isobars = L.geoJSON(data, {color: '#000000', weight: 0.5, lineJoin: 'square'}).addTo(map);			
+			isobars = L.geoJSON(data, {color: '#2e6ca5', weight: 0.5, lineJoin: 'square'}).addTo(map);			
 			var layerControl = L.control.layers(basemaps, null).assto(map);		
 		});
 		$.getJSON('iso_5.geojson', function(data) {			
-			isobars = L.geoJSON(data, {color: '#000000', weight: 0.5, lineJoin: 'square'}).addTo(map);			
+			isobars = L.geoJSON(data, {color: '#2e6ca5', weight: 1, lineJoin: 'square'}).addTo(map);			
 			var layerControl = L.control.layers(basemaps, null).assto(map);		
 		});
 		$.getJSON('iso_10.geojson', function(data) {			
-			isobars = L.geoJSON(data, {color: '#000000', weight: 0.5, lineJoin: 'square'}).addTo(map);			
+			isobars = L.geoJSON(data, {color: '#2e6ca5', weight: 2, lineJoin: 'square'}).addTo(map);			
 			var layerControl = L.control.layers(basemaps, null).assto(map);		
 		});
 		
