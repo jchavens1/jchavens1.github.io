@@ -147,7 +147,7 @@
 			var layerControl = L.control.layers(basemaps, null).assto(map);		
 		});
 		// add geoJSON of flooded area georeferenced in ArcGIS
-		$.getJSON('denverflood1965.geojson', function(data) {
+		$.getJSON('iso_1.geojson', function(data) {
 			// convert file (data) into a layer
 			 isobars = L.geoJSON(data, {color: '#000000', weight: 1, lineJoin: 'square'}).addTo(map);
 			
