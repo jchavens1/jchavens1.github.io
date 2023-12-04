@@ -129,27 +129,28 @@
 		};
 
 		// the control let's the user turn on / off layers -- ##3 here
-		var layerControl = L.control.layers(baseMaps, null).addTo(map);
-
-		
-		
-		
+		var layerControl = L.control.layers(baseMaps, null).addTo(map);		
 		
 		
 
 		// add geoJSON of flooded area georeferenced in ArcGIS
 		$.getJSON('denverflood1965.geojson', function(data) {
-			// convert file (data) into a layer
 			denverflood = L.geoJSON(data, {color: '#20076e', fillColor: '#470ff5', weight: 2, fillOpacity: .2, lineJoin: 'square'}).addTo(map);			
 			// map.panTo(denverflood.getBounds().getCenter());
 			var layerControl = L.control.layers(basemaps, null).assto(map);		
 		});
 		
 		// add geoJSON of isoheytals
-		$.getJSON('iso1_FeaturesToJSON.geojson', function(data) {
-			// convert file (data) into a layer
+		$.getJSON('iso_1.geojson', function(data) {			
 			isobars = L.geoJSON(data, {color: '#000000', weight: 0.5, lineJoin: 'square'}).addTo(map);			
-			// map.panTo(isobars.getBounds().getCenter());
+			var layerControl = L.control.layers(basemaps, null).assto(map);		
+		});
+		$.getJSON('iso_5.geojson', function(data) {			
+			isobars = L.geoJSON(data, {color: '#000000', weight: 0.5, lineJoin: 'square'}).addTo(map);			
+			var layerControl = L.control.layers(basemaps, null).assto(map);		
+		});
+		$.getJSON('iso_10.geojson', function(data) {			
+			isobars = L.geoJSON(data, {color: '#000000', weight: 0.5, lineJoin: 'square'}).addTo(map);			
 			var layerControl = L.control.layers(basemaps, null).assto(map);		
 		});
 		
