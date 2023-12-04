@@ -147,7 +147,7 @@
 			var layerControl = L.control.layers(basemaps, null).assto(map);		
 		});
 		// add geoJSON of flooded area georeferenced in ArcGIS
-		$.getJSON('iso1_FeaturesToJSON.geojson', function(data) {
+		$.getJSON('combined.geojson', function(data) {
 			// convert file (data) into a layer
 			 isobars = L.geoJSON(data, {color: '#000000', weight: 1, lineJoin: 'square'}).addTo(map);
 			
